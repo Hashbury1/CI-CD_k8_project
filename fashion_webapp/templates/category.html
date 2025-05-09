@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+
+{% block title %}Category: {{ category }}{% endblock %}
+
+{% block content %}
+<h1>Category: {{ category }}</h1>
+<div class="post-list">
+    {% for post in posts %}
+    {% if post.category == category %}
+    <div class="post-preview">
+        <h2><a href="{{ url_for('post', slug=post.slug) }}">{{ post.title }}</a></h2>
+        <p class="meta">Date: {{ post.date }}</p>
+        <p>{{ post.content | truncate(100) }}</p>
+        <p><a href="{{ url_for('post', slug=post.slug) }}" class="read-more">Read More</a></p>
+    </div>
+    {% endif %}
+    {% endfor %}
+    {% if not posts|selectattr('category', 'equalto', category)|list %}
+    <p>No posts found in this category yet.</p>
+    {% endif %}
+</div>
+{% endblock %}
