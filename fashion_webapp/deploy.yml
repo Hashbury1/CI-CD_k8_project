@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fashion-webapp-deployment
+spec:
+  replicas: 2 # Adjust as needed
+  selector:
+    matchLabels:
+      app: fashion-webapp
+  template:
+    metadata:
+      labels:
+        app: fashion-webapp
+    spec:
+      containers:
+        - name: fashion-webapp-container
+          image: your-dockerhub-username/fashion-webapp:latest # Replace with your Docker Hub image
+          ports:
+            - containerPort: 5000
+          env:
+            - name: FLASK_APP
+              value: app.py
+            - name: FLASK_ENV
+              value: production # Or 'development'
+          # resources:
+          #   requests:
+          #     cpu: 100m
+          #     memory: 128Mi
+          #   limits:
+          #     cpu: 500m
+          #     memory: 512Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fashion-webapp-service
+spec:
+  selector:
+    app: fashion-webapp
+  ports:
+    - protocol: TCP
+      port: 80 # External port
+      targetPort: 5000 # Container port
+  type: LoadBalancer # Or ClusterIP or NodePort based on your environment
