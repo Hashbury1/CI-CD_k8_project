@@ -42,7 +42,7 @@ resource "aws_security_group" "minikube_sg" {
     from_port = 22
     to_port   = 22
     protocol = "tcp" # All protocols
-    cidr_blocks = ["29.222.206.136/32"]
+    cidr_blocks = ["129.222.206.136/32"]
   }
 
   egress {
