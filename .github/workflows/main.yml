@@ -1,0 +1,26 @@
+name: My CICD workflow # A name for your workflow, displayed in the Actions tab
+
+on: # Specifies the event that triggers this workflow
+  push: # Triggered when code is pushed to the repository
+    branches: [main] # Only trigger on pushes to the 'main' branch
+  pull_request: # Triggered when a pull request is created or updated
+    branches: [main] # Only trigger on pull requests targeting the 'main' branch
+
+jobs: # A workflow run is made up of one or more jobs
+  build: # A job named 'build'
+    runs-on: ubuntu-latest # Specifies the type of runner to use (GitHub-hosted Linux in this case)
+
+    steps: # A sequence of tasks to be executed in the job
+      - name: Checkout code # A descriptive name for the step
+        uses: actions/checkout@v4 # Uses the official 'checkout' action to clone the repository
+
+      - name: Set up Python # Another step to set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x' # Specify the Python version
+
+      - name: Install dependencies # Step to install project dependencies
+        run: pip install -r requirements.txt # Runs a shell command
+
+      - name: Run tests # Step to execute tests
+        run: python manage.py test # Another shell command to run tests
