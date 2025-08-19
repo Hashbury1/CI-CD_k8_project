@@ -28,7 +28,7 @@ resource "aws_instance" "minikube_inst" {
   EOF
 
   tags = {
-    Name = "MinikubeInstance"
+    Name = "MinikubeInst"
   }
 }
 
