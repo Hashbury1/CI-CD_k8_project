@@ -8,13 +8,13 @@ terraform {
 }
 
 provider "aws" {
-  region = var.aws_region
+  region = "us-east-1"
 }
 
-resource "aws_instance" "minikube_instance" {
-  ami                    = var.ami_id
-  instance_type          = var.instance_type
-  key_name               = var.key_name
+resource "aws_instance" "minikube_inst" {
+  ami                    = "ami-0de716d6197524dd9"
+  instance_type          = "t3.medium"
+  key_name               = "hash-key-East"
   vpc_security_group_ids = [aws_security_group.minikube_sg.id]
   user_data              = <<-EOF
     #!/bin/bash
@@ -33,15 +33,15 @@ resource "aws_instance" "minikube_instance" {
 }
 
 resource "aws_security_group" "minikube_sg" {
-  name        = var.security_group_name
+  name        = "SG-minikube"
   description = "Allow SSH and all internal traffic for Minikube"
   vpc_id      = data.aws_vpc.default.id
 
 
   ingress {
-    from_port = 22
-    to_port   = 22
-    protocol = "tcp" # All protocols
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp" # All protocols
     cidr_blocks = ["129.222.206.136/32"]
   }
 
@@ -63,11 +63,11 @@ resource "aws_security_group" "minikube_sg" {
 
 }
 
-  data "aws_vpc" "default" {
-    default = true
-  }
+data "aws_vpc" "default" {
+  default = true
+}
 
-  output "public_ip" {
-    value       = aws_instance.minikube_instance.public_ip
-    description = "The public IP address of the EC2 instance"
-  }
+output "public_ip" {
+  value       = aws_instance.minikube_inst.public_ip
+  description = "The public IP address of the EC2 instance"
+}
